@@ -16,6 +16,12 @@ enum MazeKind { PATH, WALL, START, END };
 enum MazeFlag { VISITED, UNVISITED };
 
 /**
+ * MazeDirection
+ * 迷路の方向
+ */
+enum MazeDirection { UP, DOWN, LEFT, RIGHT, Invalid };
+
+/**
  * Maze
  * 迷路の構造体
  * MazeKind = 迷路の種類
@@ -103,6 +109,45 @@ int InitMazePlayer(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDTH
   /// 見つからない場合はこの処理
   printf("STARTが見つかりませんでした\n");
   return -1;
+}
+
+/**
+ * プレイヤーを移動させる関数
+ * 上の場合は、playerWidthを-1
+ * 下の場合は、playerWidthを+1
+ * 左の場合は、playerHeightを-1
+ * 右の場合は、playerHeightを+1
+ * 
+ * @param playeWidth 
+ * @param playerHeight 
+ */
+void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell[MAZE_WIDTH][MAZE_HEIGHT]) {
+
+    /// 入力した文字列を入れる変数
+    char buf[100];
+
+    /// 方向データを入れる変数
+    int direction = -1;
+
+    printf("%d: UP\n", UP);
+    printf("%d: DOWN\n", DOWN);
+    printf("%d: LEFT\n", LEFT);
+    printf("%d: RIGHT\n", RIGHT);
+    printf("数字を入力してください >>> ");
+
+    /// 文字列で入力を読み込む
+    fgets(buf, sizeof(buf), stdin);
+
+    /// 数字にできるときは変換（できない場合は何もしない）
+    sscanf(buf, "%d", &direction);
+
+    while(direction < 0 || direction > (Invalid - 1)) {
+        printf("入力された値は正しくないです\n再度入力してください");
+        fgets(buf, sizeof(buf), stdin);
+        sscanf(buf, "%d", &direction);
+    }
+
+    return 0;
 }
 
 int main(void) {
