@@ -22,6 +22,12 @@ enum MazeFlag { VISITED, UNVISITED };
 enum MazeDirection { UP, DOWN, LEFT, RIGHT, Invalid };
 
 /**
+ * Menu
+ * タイトル画面で表示するメニューの種類
+ */
+enum Menu {EASY, EXIT};
+
+/**
  * Maze
  * 迷路の構造体
  * MazeKind = 迷路の種類
@@ -242,7 +248,37 @@ int CheckMazeEnd(int playerWidth, int playerHeight, MazeCell maze[MAZE_WIDTH][MA
     return 0;
 }
 
-int main(void) {
+/**
+ * タイトル画面
+ * @return
+ */
+int MazeTitle() {
+    char buf[100];
+    int menu = -1;
+
+    printf("\n\n>>>ESCAPE MAZE<<<\n\n");
+    printf("\nゲームメニュー\n");
+    printf("%d: 簡単\n", EASY);
+    printf("%d: やめる\n", EXIT);
+
+    printf("メニューを選んでください:");
+
+    fgets(buf, sizeof(buf), stdin);
+    sscanf(buf, "%d", &menu);
+
+    while (menu < 0 || menu > EXIT) {
+        printf("予期しない入力です。再入力してください\n");
+        fgets(buf, sizeof(buf), stdin);
+        sscanf(buf, "%d", &menu);
+    }
+
+    return menu;
+}
+
+/**
+ * 迷路ゲーム関数
+ */
+void MazeGame(void) {
 
   /**
    * 迷路プレイヤー
@@ -261,7 +297,7 @@ int main(void) {
   
   // プレイヤーの初期化
   if (InitMazePlayer(&player.width, &player.height, maze) != 0) {
-    return -1;
+    return;
   }
 
   while(CheckMazeEnd(player.width, player.height, maze) != 1) {
@@ -272,7 +308,22 @@ int main(void) {
   }
 
   displayMaze(player.width, player.height, maze);
-
-  return 0;
 }
 
+int main(void) {
+    int menu;
+
+    while(1) {
+        /// メニュー選択
+        menu = MazeTitle();
+        printf("\n");
+
+        if(menu == EXIT) {
+            break;
+        } else {
+            /// 迷路ゲーム
+            MazeGame();
+        }
+    }
+    return 0;
+}
