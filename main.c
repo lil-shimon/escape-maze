@@ -121,7 +121,7 @@ int InitMazePlayer(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDTH
  * @param playeWidth 
  * @param playerHeight 
  */
-void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell[MAZE_WIDTH][MAZE_HEIGHT]) {
+void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDTH][MAZE_HEIGHT]) {
 
     /// 入力した文字列を入れる変数
     char buf[100];
@@ -147,7 +147,29 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell[MAZE_WIDTH][MA
         sscanf(buf, "%d", &direction);
     }
 
-    return 0;
+    switch(direction) {
+        case UP: {
+
+            /// 迷路の範囲外ではないことを確認
+            if (*playerWidth - 1 >= 0) {
+
+                /// 移動さきを見えるようにする
+                maze[*playerWidth - 1][*playerHeight].flag = VISITED;
+
+                /// 移動さきが壁かどうか
+                if (maze[*playerWidth - 1][*playerHeight].kind != WALL) {
+
+                    /// 壁でない場合、上に移動させる
+                    *playerWidth -= 1;
+                    printf("\n上に移動しました\n");
+                } else {
+                    printf("\n壁です\n");
+                }
+            } else {
+                printf("\n範囲外です\n");
+            }
+        }
+    }
 }
 
 int main(void) {
