@@ -147,9 +147,11 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
         sscanf(buf, "%d", &direction);
     }
 
+    /// 上下右左の処理はほとんど同じなので関数にした方がまとまるが
+    /// 一つ一つ書いた方が後で見直ししやすそうなので別で書く
     switch(direction) {
+        /// 上移動の場合
         case UP: {
-
             /// 迷路の範囲外ではないことを確認
             if (*playerWidth - 1 >= 0) {
 
@@ -169,7 +171,75 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
                 printf("\n範囲外です\n");
             }
         }
+        break;
+
+        /// 下移動の場合
+        case DOWN: {
+            /// 現在の位置の下が迷路の内あるかを確認
+            if (*playerWidth + 1 < MAZE_HEIGHT) {
+
+                /// 移動さきを見えるようにする
+                maze[*playerWidth + 1][*playerHeight].flag = VISITED;
+
+                /// 移動先が壁かを確認
+                if (maze[*playerWidth + 1][*playerHeight].kind != WALL) {
+                    *playerWidth += 1;
+                    printf("\n下に移動しました\n");
+                } else {
+                    printf("\n壁です\n");
+                }
+            } else {
+                printf("\n範囲外です\n");
+            }
+        }
+        break;
+
+        /// 左移動の場合
+        case LEFT: {
+            if (*playerHeight - 1 >= 0) {
+                maze[*playerWidth][*playerHeight - 1].flag = VISITED;
+                if (maze[*playerWidth][*playerHeight - 1].kind != WALL) {
+                    *playerHeight -= 1;
+                    printf("\n左に移動しました\n");
+                } else {
+                    printf("\n左側は壁です\n");
+                }
+            } else {
+                printf("\n左側は迷路の範囲外です\n");
+            }
+        }
+        break;
+
+        /// 右移動の場合
+        case RIGHT: {
+            if (*playerHeight + 1 < MAZE_WIDTH) {
+                maze[*playerWidth][*playerHeight + 1].flag = VISITED;
+                if (maze[*playerWidth][*playerHeight + 1].kind != WALL) {
+                    *playerHeight += 1;
+                    printf("\n右に移動しました。\n");
+                } else {
+                    printf("\n右は壁です\n");
+                }
+            } else {
+                printf("\n右は迷路の範囲外です。");
+            }
+        }
+        break;
     }
+}
+/**
+ * ゴールしているかを確認する関数
+ * @param int playerWidth
+ * @param int playerHeight
+ * @param MazeCell maze[MAZE_WIDTH][MAZE_HEIGHT]
+ * @return int 0 | 1
+ */
+int CheckMazeEnd(int playerWidth, int playerHeight, MazeCell maze[MAZE_WIDTH][MAZE_HEIGHT]) {
+    if (maze[playerWidth][playerHeight].kind == END) {
+        printf("\nゴールしました\n");
+        return 1;
+    }
+    return 0;
 }
 
 int main(void) {
