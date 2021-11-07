@@ -118,7 +118,7 @@ int InitMazePlayer(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDTH
  * 左の場合は、playerHeightを-1
  * 右の場合は、playerHeightを+1
  * 
- * @param playeWidth 
+ * @param playerWidth
  * @param playerHeight 
  */
 void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDTH][MAZE_HEIGHT]) {
@@ -264,7 +264,13 @@ int main(void) {
     return -1;
   }
 
-  // 迷路を表示
+  while(CheckMazeEnd(player.width, player.height, maze) != 1) {
+    /// 迷路を表示
+    displayMaze(player.width, player.height, maze);
+    /// プレイヤーを移動
+    MazePlayerMove(&player.width, &player.height, maze);
+  }
+
   displayMaze(player.width, player.height, maze);
 
   return 0;
