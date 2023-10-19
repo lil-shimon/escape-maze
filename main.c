@@ -1,5 +1,10 @@
 #include <stdio.h>
 
+#define MIN_WIDTH 0
+#define MAX_WIDTH (MAZE_WIDTH - 1)
+#define MIN_HEIGHT 0
+#define MAX_HEIGHT (MAZE_HEIGHT - 1)
+
 /**
  * MazeKind
  * PATH  = 迷路の道
@@ -159,7 +164,7 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
         /// 上移動の場合
         case UP: {
             /// 迷路の範囲外ではないことを確認
-            if (*playerWidth - 1 >= 0) {
+            if (*playerWidth - 1 >= MIN_WIDTH) {
 
                 /// 移動さきを見えるようにする
                 maze[*playerWidth - 1][*playerHeight].flag = VISITED;
@@ -182,7 +187,7 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
         /// 下移動の場合
         case DOWN: {
             /// 現在の位置の下が迷路の内あるかを確認
-            if (*playerWidth + 1 < MAZE_HEIGHT) {
+            if (*playerWidth + 1 <= MAX_HEIGHT) {
 
                 /// 移動さきを見えるようにする
                 maze[*playerWidth + 1][*playerHeight].flag = VISITED;
@@ -202,7 +207,7 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
 
         /// 左移動の場合
         case LEFT: {
-            if (*playerHeight - 1 >= 0) {
+            if (*playerHeight - 1 >= MIN_WIDTH) {
                 maze[*playerWidth][*playerHeight - 1].flag = VISITED;
                 if (maze[*playerWidth][*playerHeight - 1].kind != WALL) {
                     *playerHeight -= 1;
@@ -218,7 +223,7 @@ void MazePlayerMove(int *playerWidth, int *playerHeight, MazeCell maze[MAZE_WIDT
 
         /// 右移動の場合
         case RIGHT: {
-            if (*playerHeight + 1 < MAZE_WIDTH) {
+            if (*playerHeight + 1 <= MAX_WIDTH) {
                 maze[*playerWidth][*playerHeight + 1].flag = VISITED;
                 if (maze[*playerWidth][*playerHeight + 1].kind != WALL) {
                     *playerHeight += 1;
