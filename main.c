@@ -1,36 +1,5 @@
 #include <stdio.h>
-
-#define MIN_WIDTH 0
-#define MAX_WIDTH (MAZE_WIDTH - 1)
-#define MIN_HEIGHT 0
-#define MAX_HEIGHT (MAZE_HEIGHT - 1)
-
-/**
- * MazeKind
- * PATH  = 迷路の道
- * WALL  = 迷路の壁
- * START = 迷路の始点
- * END   = 迷路の終点
- */
-enum MazeKind { PATH, WALL, START, END };
-
-/**
- * MazeFlag
- * 迷路の可視不可視
- */
-enum MazeFlag { VISITED, UNVISITED };
-
-/**
- * MazeDirection
- * 迷路の方向
- */
-enum MazeDirection { UP, DOWN, LEFT, RIGHT, Invalid };
-
-/**
- * Menu
- * タイトル画面で表示するメニューの種類
- */
-enum Menu {EASY, EXIT};
+#include "constants.h"
 
 /**
  * Maze
@@ -52,16 +21,6 @@ typedef struct {
   int width;
   int height;
 } MazePlayer;
-
-/**
- * 迷路の横幅
- */
-#define MAZE_WIDTH  5
-
-/**
- * 迷路の縦幅 
- */
-#define MAZE_HEIGHT 5
 
 /**
  * 迷路を表示する関数
